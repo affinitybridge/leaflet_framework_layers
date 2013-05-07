@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * Implements hook_library().
+ */
+function leaflet_framework_layers_library() {
+  global $language;
+  global $is_https;
+
+  $libraries = array();
+
+  $path = drupal_get_path('module', 'leaflet_framework_layers');
+
+  $protocol = $is_https ? 'https' : 'http';
+  $google_api = url("$protocol://maps.google.com/maps/api/js", array(
+    'query' => array(
+      'v' => '3.2',
+      'language' => $language->language,
+      'sensor' => 'false',
+    ),
+    'external' => TRUE,
+  ));
+  $libraries['Layers'] = array(
+    'title' => 'Advanced leaflet framework layer manager plugin',
+    'version' => '7.x-1.x',
+    'js' => array(
+      $google_api => array('type' => 'external'),
+      "$path/js/Layers.js" => array(),
+      "$path/js/Layers/Layers.js" => array(),
+      "$path/js/Layers/Layer/Google.js" => array(),
+      "$path/js/Layers/Layer/GeoJSON.js" => array(),
+    ),
+    'dependencies' => array(
+      array('leaflet_framework', 'LeafletFramework'),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_leaflet_framework_plugins().
+ */
+function leaflet_framework_layers_leaflet_framework_plugins() {
+  $plugins = array();
+
+  /* Amani incident map layers plugin.
+   * - Adds layers to a map as either base layers or overlays.
+   * - Adds an optional layer switcher control to the map.
+   */
+  $plugins['lf_advanced_layers'] = array(
+    'library' => array('leaflet_framework_layers', 'Layers'),
+    'logical' => 'LF.Layers',
+    'switcher' => array('position' => 'topright'),
+    'layers' => array(
+      array('title' => 'Terrain', 'provider' => 'google', 'set' => 'TERRAIN', 'type' => 'base'),
+      array('title' => 'Hybrid', 'provider' => 'google', 'set' => 'HYBRID', 'type' => 'base', 'disabled' => TRUE),
+      array('title' => 'Satellite', 'provider' => 'google', 'set' => 'SATELLITE', 'type' => 'base', 'disabled' => TRUE),
+      array('title' => 'OSM', 'provider' => 'tilelayer', 'urlTemplate' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 'type' => 'base', 'disabled' => TRUE),
+    ),
+  );
+
+  return $plugins;
+}
