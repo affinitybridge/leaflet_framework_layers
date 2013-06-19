@@ -1,4 +1,4 @@
-LF.LayerFactory = LF.Util.Factory.extend({});
+LF.LayerFactory = LF.Util.Factory.extend({ type: 'layer' });
 
 LF.Layers = LF.Plugin.extend({
 

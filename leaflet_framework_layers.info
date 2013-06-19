@@ -1,4 +1,5 @@
 name = Advanced Leaflet framework layers
 description = An advanced layer switcher for Leaflet layers.
+package = Leaflet Framework
 core = 7.x
 dependencies[] = leaflet_framework
