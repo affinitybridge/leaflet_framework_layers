@@ -44,19 +44,17 @@ function leaflet_framework_layers_library() {
 function leaflet_framework_layers_leaflet_framework_plugins() {
   $plugins = array();
 
-  /* Amani incident map layers plugin.
-   * - Adds layers to a map as either base layers or overlays.
-   * - Adds an optional layer switcher control to the map.
-   */
   $plugins['lf_advanced_layers'] = array(
     'library' => array('leaflet_framework_layers', 'Layers'),
     'logical' => 'LF.Layers',
-    'switcher' => array('position' => 'topright'),
-    'layers' => array(
-      array('title' => 'Terrain', 'provider' => 'google', 'set' => 'TERRAIN', 'type' => 'base'),
-      array('title' => 'Hybrid', 'provider' => 'google', 'set' => 'HYBRID', 'type' => 'base', 'disabled' => TRUE),
-      array('title' => 'Satellite', 'provider' => 'google', 'set' => 'SATELLITE', 'type' => 'base', 'disabled' => TRUE),
-      array('title' => 'OSM', 'provider' => 'tilelayer', 'urlTemplate' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 'type' => 'base', 'disabled' => TRUE),
+    'defaults' => array(
+      'switcher' => array('position' => 'topright'),
+      'layers' => array(
+        array('title' => 'Terrain', 'provider' => 'google', 'set' => 'TERRAIN', 'type' => 'base'),
+        array('title' => 'Hybrid', 'provider' => 'google', 'set' => 'HYBRID', 'type' => 'base', 'disabled' => TRUE),
+        array('title' => 'Satellite', 'provider' => 'google', 'set' => 'SATELLITE', 'type' => 'base', 'disabled' => TRUE),
+        array('title' => 'OSM', 'provider' => 'tilelayer', 'urlTemplate' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 'type' => 'base', 'disabled' => TRUE),
+      ),
     ),
   );
 
