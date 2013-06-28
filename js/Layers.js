@@ -11,13 +11,19 @@ LF.Layers = LF.Plugin.extend({
             this.addControl(this.options.switcher);
         }
 
-        var i, definition, layer;
+        var i, layers = [];
 
-        for (i in this.options.layers) {
-            definition = this.options.layers[i];
-            layer = this._layerFactory.get(definition.provider, definition);
+        // TODO: In the future we should leave the layer sorting to PHP.
+        for (i in this.options.layers) { layers.push(this.options.layers[i]); }
+        layers.sort(function (a, b) {
+            var weight_a = a.weight || 0,
+                weight_b = b.weight || 0;
+            return weight_a - weight_b;
+        });
+        layers.forEach(function (definition) {
+            var layer = this._layerFactory.get(definition.provider, definition);
             this.addLayer(layer, definition);
-        }
+        }, this);
     },
 
     addLayer: function (layer, definition) {
